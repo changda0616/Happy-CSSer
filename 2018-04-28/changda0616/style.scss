@@ -1,0 +1,222 @@
+$semi-triangle-width: 90px;
+$triangle-height: calc(#{$semi-triangle-width} * 1.73205);
+$circle-radius: 70px;
+$ring-width: 5px;
+$text: '1';
+$light-grey: #888;
+$dark-grey: #555;
+$lens-x-off: 20px;
+$lens-y-off: 1px;
+$dribbble-color: #ea4c89;
+@mixin keyframe($animation-name, $content-start, $content-end) {
+  animation: $animation-name .35s cubic-bezier(0, 0, 0, .9) forwards;
+  @keyframes #{$animation-name} {
+    0% {
+      content: $content-start;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    100% {
+      content: $content-end;
+      transform: scale(1);
+    }
+  }
+
+
+
+
+  @keyframes #{$animation-name} {
+    0% {
+      content: $content-start;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    100% {
+      content: $content-end;
+      transform: scale(1);
+    }
+  }
+}
+
+* {
+  font-family: sans-serif;
+}
+
+.camera {
+  border: 4px solid $light-grey;
+  border-radius: 12px;
+  height: calc(#{$circle-radius} * 1.8);
+  left: calc(50% - 1.15 * #{$circle-radius});
+  position: relative;
+  top: 23.5vh;
+  width: calc(#{$circle-radius} * 2.8);
+
+  button {
+    border: 2px solid $light-grey;
+    border-radius: 10px;
+    height: 20px;
+    outline: 0;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    transition: transform .35s step-start;
+    width: 20px;
+
+    &.wide {
+      transform: rotate(0deg);
+    }
+
+    &.medium {
+      transform: rotate(45deg);
+    }
+
+    &.narrow {
+      transform: rotate(90deg);
+    }
+
+    &::before {
+      background-color: $dark-grey;
+      border-radius: 1px;
+      content: '';
+      height: 5px;
+      left: calc(50% - .5px);
+      opacity: .8;
+      position: absolute;
+      top: 1px;
+      width: 1px;
+    }
+  }
+}
+
+.outer {
+  border: $ring-width solid $light-grey;
+  border-radius: calc(#{$circle-radius} + #{$ring-width});
+  content: '';
+  height: calc(#{$circle-radius} * 2);
+  left: calc(50% - #{$circle-radius} - #{$ring-width} - #{$lens-x-off});
+  position: absolute;
+  top: calc(-#{$ring-width} - #{$lens-y-off});
+  transform: scale(.6);
+  width: calc(#{$circle-radius} * 2);
+}
+
+.inner {
+  border-radius: $circle-radius;
+  content: '';
+  height: calc(#{$circle-radius} * 2);
+  left: calc(50% - #{$circle-radius} - #{$lens-x-off});
+  overflow: hidden;
+  position: absolute;
+  top: -$lens-y-off;
+  transform: scale(.5);
+  width: calc(#{$circle-radius} * 2);
+
+  @for $i from 1 through 6 {
+    $degree: 60deg * $i;
+
+    .triangle {
+      &:nth-child(#{$i}) {
+        align-items: flex-end;
+        bottom: 0;
+        display: flex;
+        height: $circle-radius;
+        left: calc(50% - #{$semi-triangle-width});
+        position: absolute;
+        transform: rotate($degree);
+        transform-origin: center top;
+
+        &.wide {
+          &::after {
+            transform: rotate(-32deg);
+          }
+        }
+
+        &.medium {
+          &::after {
+            transform: rotate(-22deg) scale(1.1);
+          }
+        }
+
+        &.narrow {
+          &::after {
+            transform: rotate(-10deg) scale(1.17);
+          }
+        }
+
+        // triangle
+        &::after {
+          border-bottom: $triangle-height solid $dark-grey;
+          border-left: $semi-triangle-width solid transparent;
+          border-right: $semi-triangle-width solid transparent;
+          content: '';
+          display: block;
+          height: 0;
+          margin-bottom: -105px;
+          transform-origin: center center;
+          transition: transform .3s cubic-bezier(0, 0, 0, .9);
+          width: 0;
+        }
+      }
+    }
+  }
+}
+
+.info {
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+
+  &::before {
+    color: lighten($light-grey, 10%);
+    content: '16';
+    display: inline-block;
+    font-size: 1.5rem;
+    transform: scale(1);
+  }
+
+  &.wide {
+    &::before {
+      @include keyframe(wide, '2.8', '16');
+    }
+  }
+
+  &.medium {
+    &::before {
+      @include keyframe(medium, '16', '10');
+    }
+  }
+
+  &.narrow {
+    &::before {
+      @include keyframe(narrow, '10', '2.8');
+    }
+  }
+}
+
+.link {
+  bottom: 10px;
+  font-size: 14px;
+  position: fixed;
+  right: 16px;
+
+  a {
+    color: $dribbble-color;
+    text-decoration: none;
+
+    &:visited {
+      color: $dribbble-color;
+    }
+  }
+}
