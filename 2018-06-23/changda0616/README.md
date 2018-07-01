@@ -1,3 +1,8 @@
+#### Topic: Music Player
+#### Codepen: [Music Player](https://codepen.io/Chad_Z/pen/KeBpQv)
+#### Date: 2018/06/23
+---
+
 Music player inspired by [Charles Patterson's work](https://dribbble.com/shots/4240318-Made-with-InVision-Studio-Music-Player) on Dribbble. At first glance, I think it won't be too hard to complete the cover, but actually spend me about two days to finish.
 
 
